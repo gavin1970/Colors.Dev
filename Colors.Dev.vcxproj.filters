@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\internal">
+      <UniqueIdentifier>{a085db90-1eef-4499-994d-63077c4520a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\internal">
+      <UniqueIdentifier>{0d7e0844-92a1-4374-bc18-6721b1cec6ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\public">
+      <UniqueIdentifier>{bce440e4-ed6c-4cb2-b34e-07cd860fd075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\public">
+      <UniqueIdentifier>{dec6c742-40c9-4896-979d-4b2ffa159666}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{8a0a8319-e80b-40ae-b09d-ecaceaf1428d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scripts">
+      <UniqueIdentifier>{19bc4e70-247e-4681-9e31-bffc05c62b54}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ansi_printing.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="color_support.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="white_points.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="rgb_color.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="hsl_space.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="hsv_space.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="xyz_space.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="cmyk_space.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="lch_space.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+    <ClCompile Include="luv_space.c">
+      <Filter>Source Files\public</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="ansi_printing.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="import_exports.h">
+      <Filter>Header Files\internal</Filter>
+    </ClInclude>
+    <ClInclude Include="color_support.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="color_types.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="white_points.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="hsl_space.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="rgb_color.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="hsv_space.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="xyz_space.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="cmyk_space.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="lch_space.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+    <ClInclude Include="luv_space.h">
+      <Filter>Header Files\public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="console_examples.png">
+      <Filter>docs</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="LICENSE.md">
+      <Filter>docs</Filter>
+    </None>
+    <None Include="update_version.ps1">
+      <Filter>scripts</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

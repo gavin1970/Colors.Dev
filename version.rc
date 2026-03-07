@@ -1,0 +1,35 @@
+#include <windows.h>
+#include "import_exports.h"
+
+// Version macros are defined in import_exports.h - no need to duplicate them here
+
+VS_VERSION_INFO VERSIONINFO
+// FileVersion uses: Year-offset.Month.Day.HHmm UTC - (e.g., 6.2.27.1104)
+FILEVERSION     COLORS_DEV_YEAR_OFFSET, COLORS_DEV_MONTH, COLORS_DEV_DAY, COLORS_DEV_UTC_TIME
+// ProductVersion uses the NuGet release number (e.g., 6.2.27.1)
+PRODUCTVERSION  COLORS_DEV_YEAR_OFFSET, COLORS_DEV_MONTH, COLORS_DEV_DAY, COLORS_DEV_NUGET_RELEASE
+FILEFLAGSMASK   VS_FFI_FILEFLAGSMASK
+FILEFLAGS       0x0L
+FILEOS          VOS_NT_WINDOWS32
+FILETYPE        VFT_DLL
+FILESUBTYPE     VFT2_UNKNOWN
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"  // US English, Unicode
+        BEGIN
+            VALUE "CompanyName",      "colors.dev\0"
+            VALUE "FileDescription",  "A lightweight, cross-platform C/C++ library with .NET interop for color manipulation and includes console color rendering with 24-bit true color support.\0"
+            VALUE "FileVersion",      COLORS_DEV_FILE_VERSION "\0"
+            VALUE "InternalName",     "Colors.Dev\0"
+            VALUE "LegalCopyright",   COLORS_DEV_COPYRIGHT "\0"
+            VALUE "OriginalFilename", "Colors.Dev.dll\0"
+            VALUE "ProductName",      "Colors.Dev\0"
+            VALUE "ProductVersion",   COLORS_DEV_VERSION "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200  // US English, Unicode
+    END
+END
