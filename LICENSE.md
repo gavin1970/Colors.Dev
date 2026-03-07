@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2026 Gavin W. Landon (chizl.com)
+Copyright (c) 2026 Colors.dev
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

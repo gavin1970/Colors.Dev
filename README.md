@@ -23,7 +23,7 @@ A lightweight, cross-platform C/C++ library with .NET interop for color manipula
 
 ## Example Output
 
-[![Console Example](https://raw.githubusercontent.com/colors-dev/Colors.Dev/refs/heads/master/thumbnail_examples.png)](https://raw.githubusercontent.com/colors-dev/Colors.Dev/refs/heads/master/console_examples.png)
+[![Console Example](https://raw.githubusercontent.com/colors-dev/Colors.Dev/refs/heads/main/thumbnail_examples.png)](https://raw.githubusercontent.com/colors-dev/Colors.Dev/refs/heads/main/console_examples.png)
 
 ---
 
@@ -252,7 +252,7 @@ ClearBuffer();
 
 ### C/C++ Example
 
-See the full C console demo in [`DemoConsole/main.c`](https://github.com/colors-dev/Colors.Dev/blob/master/DemoConsole/main.c):
+See the full C console demo in [`CConsole/main.c`](https://github.com/colors-dev/Colors.Dev/blob/main/demos/CConsole/main.c):
 ```C
 #include "color_types.h"
 const RgbColor rgbCyan = { 255, 0, 255, 255 }; 
@@ -279,7 +279,7 @@ ClearBuffer();
 
 ### C# .NET Example
 
-See the full .NET demo in [`demos/CSharpConsole/Program.cs`](https://github.com/colors-dev/Colors.Dev/blob/master/demos/CSharpConsole/Program.cs):
+See the full .NET demo in [`CSharpConsole/Program.cs`](https://github.com/colors-dev/Colors.Dev/blob/main/demos/CSharpConsole/Program.cs):
 
 ```C#
 static readonly RgbColor rgbCyan = new RgbColor { alpha = 255, red = 0, green = 255, blue = 255 }; 
@@ -356,7 +356,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/colors-dev/Colors.Dev/blob/master/LICENSE.md) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/colors-dev/Colors.Dev/blob/main/LICENSE.md) file for details.
 
 ---
 
