@@ -246,6 +246,18 @@ ClearBuffer();
 * `int RgbToArgbDec(RgbColor clr)`
   * Converts RGB to decimal integer with alpha (0xAARRGGBB).
 
+* `LinearColor RgbToLinear(RgbColor clr)`
+  * Converts an RGB color to 32-bit linear color space.
+
+* `RgbColor LinearToRgb(LinearColor lClr)`
+  * Converts a 32-bit linear color to RGB color space.
+
+* `double SrgbToLinear(double srgb)`
+  * Converts a single channel from sRGB value to a single channel linear color value.
+
+* `double LinearToSrgb(double linear)`
+  * Converts a single channel from linear color value to a single channel sRGB color value.
+
 ---
 
 ## Usage Examples
@@ -370,7 +382,10 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Version History
 
-- **6.3.7.0201** - Current release
+- **6.3.18.2120** - Current release
+  - Added RGB to Linear and Linear to RGB conversions for applications that require linear color space processing, such as advanced graphics rendering and color grading workflows.  Also added SrgbToLinear and LinearToSrgb functions for single channel conversions to support more granular color adjustments in linear space.
+
+- **6.3.7.0201**
   - Moved from Chizl.Colors to Colors.Dev to create a more focused library for color manipulation and console color support.  This allows for a more streamlined API and clearer branding for developers looking for a dedicated color library without the additional features of the broader Colors.Dev framework.
 
 - **6.3.4.1749**

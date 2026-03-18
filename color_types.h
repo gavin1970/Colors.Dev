@@ -32,6 +32,28 @@ typedef struct {
 } RgbColor;
 
 /// <summary>
+/// Represents a color in linear color space with alpha, red, green, and blue channels.
+/// </summary>
+typedef struct {
+    /// <summary>
+    /// A floating-point variable representing the alpha component.
+    /// </summary>
+    double alpha;
+    /// <summary>
+    /// A floating-point variable representing a red color component.
+    /// </summary>
+    double red;
+    /// <summary>
+    /// A floating-point variable representing a green color component.
+    /// </summary>
+    double green;
+    /// <summary>
+    /// A floating-point variable representing a blue color component.
+    /// </summary>
+    double blue;
+} LinearColor;
+
+/// <summary>
 /// Represents a color in the CMYK (Cyan, Magenta, Yellow, Key/Black) color space.
 /// </summary>
 typedef struct {

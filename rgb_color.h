@@ -15,6 +15,7 @@ extern "C" {
 #include <stdint.h>             // For uint32_t type
 
 typedef uint32_t colors_dev_color32;
+typedef double colors_dev_float64;
 
 /// <summary>
 /// Converts an RGB color to its hexadecimal string representation.
@@ -29,7 +30,7 @@ COLORS_DEV_API char* RgbToRgbHex(RgbColor clr, unsigned int includeAlpha);
 /// </summary>
 /// <param name="clr">The RGB color to convert.</param>
 /// <returns>A 32-bit RGBA color value representing the input RGB color.</returns>
-COLORS_DEV_API colors_dev_color32 RgbToRgbDec(RgbColor clr);
+COLORS_DEV_API colors_dev_color32 RgbToRgbDec(RgbColor rgb);
 
 /// <summary>
 /// Converts an RGB color to a 32-bit ARGB color with full opacity.
@@ -37,6 +38,35 @@ COLORS_DEV_API colors_dev_color32 RgbToRgbDec(RgbColor clr);
 /// <param name="rgb">The RGB color to convert.</param>
 /// <returns>A 32-bit ARGB color value with the alpha channel set to fully opaque.</returns>
 COLORS_DEV_API colors_dev_color32 RgbToArgbDec(RgbColor rgb);
+
+/// <summary>
+/// Converts an RGB color to linear color space.
+/// </summary>
+/// <param name="rgb">The RGB color to convert.</param>
+/// <returns>The color converted to linear color space as a 32-bit color value.</returns>
+COLORS_DEV_API LinearColor RgbToLinear(RgbColor clr);
+
+/// <summary>
+/// Converts a linear color to an RGB color.
+/// </summary>
+/// <param name="lClr">The linear color to convert.</param>
+/// <returns>The converted RGB color.</returns>
+COLORS_DEV_API RgbColor LinearToRgb(LinearColor lClr);
+
+/// <summary>
+/// Converts a color value from sRGB color space to linear color space.
+/// </summary>
+/// <param name="srgb">The color value in sRGB color space to convert.</param>
+/// <returns>The converted color value in linear color space.</returns>
+COLORS_DEV_API colors_dev_float64 SrgbToLinear(colors_dev_float64 srgb);
+
+/// <summary>
+/// Converts a color value from linear color space to sRGB color space.
+/// </summary>
+/// <param name="linear">The color value in linear color space to convert.</param>
+/// <returns>The color value converted to sRGB color space.</returns>
+COLORS_DEV_API colors_dev_float64 LinearToSrgb(colors_dev_float64 linear);
+
 
 // --- End of "extern C" block ---
 #ifdef __cplusplus

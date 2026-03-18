@@ -15,8 +15,6 @@ extern "C" {
 #include "white_points.h"       // For white point definitions used in XYZ to Lab conversions.
 #include <stdint.h>             // For uint32_t type
 
-
-
 /// <summary>
 /// Converts an RGB color to the Lab color space.<br/>
 /// (Default: WP_D65_FULL white point is used for the conversion.)
