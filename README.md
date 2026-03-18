@@ -154,7 +154,7 @@ ClearBuffer();
 
 * `HslSpace RgbToHsl(RgbColor rgb)`
   * Converts RGB to HSL (Hue, Saturation, Lightness) color space.
-  * **Returns**: `HslSpace` with hue (0-360�), saturation (0-100%), lightness (0-100%), and raw_lightness for improved round-trip accuracy.
+  * **Returns**: `HslSpace` with hue (0-360&deg;), saturation (0-100%), lightness (0-100%), and raw_lightness for improved round-trip accuracy.
 
 * `XyzSpace RgbToXyz(RgbColor rgb)`
   * Converts RGB to XYZ color space.
@@ -350,20 +350,26 @@ ColorApi.ClearBuffer();
 - **Use Case**: Display, web, image formats
 
 ### HSV (Hue, Saturation, Value)
-- **Hue**: 0-360� (color wheel)
+- **Hue**: 0-360&deg; (color wheel)
 - **Saturation**: 0-100% (color intensity)
 - **Value**: 0-100% (brightness)
 - **Total Combinations**: ~3,600,000
 - **Use Case**: Color picking, adjusting brightness
 
 ### HSL (Hue, Saturation, Lightness)
-- **Hue**: 0-360� (color wheel)
+- **Hue**: 0-360&deg; (color wheel)
 - **Saturation**: 0-100% (color purity)
 - **Lightness**: 0-100% (light/dark balance)
 - **Total Combinations**: ~3,600,000
 - **Use Case**: Color adjustments, tinting
 
 > **Note**: HSV/HSL have fewer combinations than RGB, so conversions may not be perfectly reversible. This library stores `raw_value`/`raw_lightness` to improve round-trip accuracy.
+
+### LCH (Lightness, Chroma, Hue)
+- **Lightness**: 0-100 (perceptual brightness)
+- **Chroma**: 0-100 (color intensity)
+- **Hue**: 0-360&deg; (color wheel)
+> **Note**: LCH space is ideal for creating color palettes (e.g., "Give me 5 colors with the same Lightness and Chroma but different Hues"). LCh is a cylindrical representation of the Lab space. It is the most intuitive space for color manipulation:<br/>- Lightness: How bright the color is.<br/>- Chroma: How saturated/intense the color is.<br/>- Hue: The "color" itself (e.g., 0° is Red, 120° is Green, 240° is Blue).
 
 ---
 
