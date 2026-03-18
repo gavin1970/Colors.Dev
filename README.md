@@ -268,6 +268,9 @@ The conversion functions apply the standard sRGB gamma correction formula:
   - if `linear <= 0.0031308`, then `srgb = linear * 12.92`
   - if `linear > 0.0031308`, then `srgb = 1.055 * pow(linear,(1/2.4)) - 0.055`
 
+**Important Note**: 
+- The Alpha (transparency) channel is typically treated as linear and does not undergo gamma correction during these conversions.
+
 ---
 
 ## Usage Examples
