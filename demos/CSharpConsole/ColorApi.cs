@@ -203,4 +203,27 @@ internal static class ColorApi
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void ClearBuffer();
+
+    // --- Get Specific Property Methods ---
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetHue(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetHsvSaturation(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetHslSaturation(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetHslLightness(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetHsvBrightness(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetRelativeLuminance(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetPerceptualBrightness(RgbColor rgb);
 }
