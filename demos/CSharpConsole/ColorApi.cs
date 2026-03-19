@@ -226,4 +226,7 @@ internal static class ColorApi
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern double GetPerceptualBrightness(RgbColor rgb);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern double GetContrastRatio(RgbColor a, RgbColor b);
 }

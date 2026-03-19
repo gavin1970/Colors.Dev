@@ -60,6 +60,14 @@ COLORS_DEV_API colors_dev_float64 GetRelativeLuminance(RgbColor rgb);
 /// <returns>A floating-point value representing the perceptual brightness of the color.</returns>
 COLORS_DEV_API colors_dev_float64 GetPerceptualBrightness(RgbColor rgb);
 
+/// <summary>
+/// Calculates the contrast ratio between two RGB colors.
+/// </summary>
+/// <param name="a">The first RGB color.</param>
+/// <param name="b">The second RGB color.</param>
+/// <returns>The contrast ratio between the two colors as a 64-bit floating-point value.</returns>
+COLORS_DEV_API colors_dev_float64 GetContrastRatio(RgbColor a, RgbColor b);
+
 // --- End of "extern C" block ---
 #ifdef __cplusplus
 }

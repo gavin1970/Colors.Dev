@@ -292,7 +292,11 @@ ClearBuffer();
 
 * `double GetHsvBrightness(RgbColor rgb)`
   * Calculates the Brightness component of the HSV (Hue, Saturation, Value) color model from an RGB color.
-  * **Returns**: The brightness value as a 64-bit floating-point number.
+  * **Returns**: The brightness value as a 64-bit floating-point number, typically in the range [0.0, 1.0].
+
+* `double GetContrastRatio(RgbColor color1, RgbColor color2)`
+  * Calculates the contrast ratio between two RGB colors using their relative luminance values. This is commonly used for assessing text readability and accessibility.
+  * **Returns**: The contrast ratio as a 64-bit floating-point number, where a higher value indicates greater contrast. The minimum recommended contrast ratio for normal text is 4.5:1.
 
 **Understanding Linear/NonLinear Curve**<br/>
 The sRGB curve is designed to mimic how human eyes perceive darkness, while the Linear curve is what physics (light) actually follows.  When performing color math, using Linear space prevents the inaccuracies that arise from the nonlinear sRGB encoding. After calculations, converting back to sRGB ensures the colors display correctly on screens.<br/>
@@ -435,7 +439,7 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 ## Version History
 
 - **6.3.19.0100** - Current release
-  - Added methods, GetHue(), GetHsvSaturation(), GetHslSaturation(), GetHslLightness(), GetHsvBrightness(), GetRelativeLuminance(), and GetPerceptualBrightness(). These methods provide additional color information and are useful for tasks like determining text contrast, performing color adjustments, and analyzing color properties for accessibility and design purposes.
+  - Added methods, GetHue(), GetHsvSaturation(), GetHslSaturation(), GetHslLightness(), GetHsvBrightness(), GetRelativeLuminance(), GetPerceptualBrightness(), GetContrastRatio(). These methods provide additional color information and are useful for tasks like determining text contrast, performing color adjustments, and analyzing color properties for accessibility and design purposes.
 
 - **6.3.18.2120**
   - Added RGB to Linear and Linear to RGB conversions for applications that require linear color space processing, such as advanced graphics rendering and color grading workflows.  Also added SrgbToLinear and LinearToSrgb functions for single channel conversions to support more granular color adjustments in linear space.

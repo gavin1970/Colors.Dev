@@ -104,3 +104,14 @@ COLORS_DEV_API colors_dev_float64 GetRelativeLuminance(RgbColor rgb)
 COLORS_DEV_API colors_dev_float64 GetPerceptualBrightness(RgbColor rgb) {
     return RgbToLab(rgb).l;
 }
+
+COLORS_DEV_API colors_dev_float64 GetContrastRatio(RgbColor a, RgbColor b)
+{
+    colors_dev_float64 la = GetRelativeLuminance(a);
+    colors_dev_float64 lb = GetRelativeLuminance(b);
+
+    colors_dev_float64 l1 = (la > lb) ? la : lb;
+    colors_dev_float64 l2 = (la > lb) ? lb : la;
+
+    return (l1 + 0.05) / (l2 + 0.05);
+}
