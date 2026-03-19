@@ -80,8 +80,8 @@ namespace CSharpConsole
             var lchFull = LabToLch(labFull);
             var lch64 = LabToLch(lab64);
 
-            var ahex = PtrToAnsiAndFree(RgbToRgbHex(clr, true));     //converts nint to string and frees the pointer, REQUIRED.
-            var hex = PtrToAnsiAndFree(RgbToRgbHex(clr, false));     //converts nint to string and frees the pointer, REQUIRED.
+            var ahex = PtrToUtf8AndFree(RgbToRgbHex(clr, true));     //converts nint to string and frees the pointer, REQUIRED.
+            var hex = PtrToUtf8AndFree(RgbToRgbHex(clr, false));     //converts nint to string and frees the pointer, REQUIRED.
 
             int dec = unchecked((int)RgbToRgbDec(clr));
             int aDec = unchecked((int)RgbToArgbDec(clr));
@@ -184,7 +184,7 @@ namespace CSharpConsole
             }
         }
 
-        static string PtrToAnsiAndFree(nint p)
+        static string PtrToUtf8AndFree(nint p)
         {
             if (p == 0) return string.Empty;
 

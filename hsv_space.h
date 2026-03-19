@@ -28,6 +28,29 @@ COLORS_DEV_API HsvSpace RgbToHsv(RgbColor rgb);
 /// <returns>RGB Color</returns>
 COLORS_DEV_API RgbColor HsvToRgb(HsvSpace hsv);
 
+/// <summary>
+/// Calculates the Hue component of the HSV/HSL from an RGB color.  
+/// Hue from both HSV and HSL are always the same value, so this function can be used for both color spaces.
+/// </summary>
+/// <param name="rgb">The RGB color from which to extract the hue.</param>
+/// <returns>The hue value as a 64-bit floating-point number, typically in the range [0, 360) degrees.</returns>
+COLORS_DEV_API colors_dev_float64 GetHue(RgbColor rgb);
+
+/// <summary>
+/// Calculates the Saturation component of the HSV (Hue, Saturation, Value) color model from an RGB color.
+/// </summary>
+/// <param name="rgb">The RGB color to extract the saturation from.</param>
+/// <returns>The saturation value in the HSV color space, typically in the range [0.0, 1.0].</returns>
+COLORS_DEV_API colors_dev_float64 GetHsvSaturation(RgbColor rgb);
+
+/// <summary>
+/// Calculates the Brightness of an RGB color from the HSV (Hue, Saturation, Value, Raw_Value) color model.
+/// This is the "Raw_Value" component of HSV, which represents the unchanged value "brightness" of the color.
+/// </summary>
+/// <param name="rgb">The RGB color to calculate brightness for.</param>
+/// <returns>The brightness value as a 64-bit floating point number.</returns>
+COLORS_DEV_API colors_dev_float64 GetHsvBrightness(RgbColor rgb);
+
 // --- End of "extern C" block ---
 #ifdef __cplusplus
 }

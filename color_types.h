@@ -3,6 +3,10 @@
 #ifndef COLORS_DEV_TYPES_H
 #define COLORS_DEV_TYPES_H
 
+#include <stdint.h>             // For uint32_t type
+typedef uint32_t colors_dev_color32;
+typedef double colors_dev_float64;
+
 // This file defines the public data structures for the Colors library.
 
 /// <summary>

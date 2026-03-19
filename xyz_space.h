@@ -46,6 +46,20 @@ COLORS_DEV_API LabSpace XyzToLab(XyzSpace xyz);
 /// <returns>The color converted to LAB color space.</returns>
 COLORS_DEV_API LabSpace XyzToLabEx(XyzSpace xyz, WhitePointType wp);
 
+/// <summary>
+/// Calculates the relative luminance of an RGB color. (The "Physics" version)
+/// </summary>
+/// <param name="clr">The RGB color for which to calculate relative luminance.</param>
+/// <returns>The relative luminance value as a 64-bit floating-point number, typically in the range [0.0, 1.0].</returns>
+COLORS_DEV_API colors_dev_float64 GetRelativeLuminance(RgbColor rgb);
+
+/// <summary>
+/// Calculates the perceptual brightness of an RGB color. (The "Human" version)
+/// </summary>
+/// <param name="clr">The RGB color to evaluate.</param>
+/// <returns>A floating-point value representing the perceptual brightness of the color.</returns>
+COLORS_DEV_API colors_dev_float64 GetPerceptualBrightness(RgbColor rgb);
+
 // --- End of "extern C" block ---
 #ifdef __cplusplus
 }

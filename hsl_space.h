@@ -28,6 +28,19 @@ COLORS_DEV_API HslSpace RgbToHsl(RgbColor rgb);
 /// <returns>RGB Color</returns>
 COLORS_DEV_API RgbColor HslToRgb(HslSpace hsl);
 
+/// <summary>
+/// Gets the lightness component from an RGB color converted to HSL color space.
+/// </summary>
+/// <param name="rgb">The RGB color to convert.</param>
+/// <returns>The lightness value in the HSL representation, typically in the range [0.0, 1.0].</returns>
+COLORS_DEV_API colors_dev_float64 GetHslLightness(RgbColor rgb);
+
+/// <summary>
+/// Gets the saturation component from an RGB color converted to HSL color space.
+/// </summary>
+/// <param name="rgb">The RGB color to convert.</param>
+/// <returns>The saturation component in HSL color space as a 64-bit floating point value.</returns>
+COLORS_DEV_API colors_dev_float64 GetHslSaturation(RgbColor rgb);
 
 // --- End of "extern C" block ---
 #ifdef __cplusplus

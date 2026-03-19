@@ -1,6 +1,6 @@
 # Colors.Dev
 
-[![Version](https://img.shields.io/badge/version-6.3.18.2120-blue.svg)](https://github.com/colors-dev/Colors.Dev)
+[![Version](https://img.shields.io/badge/version-6.3.19.0100-blue.svg)](https://github.com/colors-dev/Colors.Dev)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/colors-dev/Colors.Dev/blob/master/LICENSE.md)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-purple.svg)<br/>
 ![Dependencies](https://img.shields.io/badge/dependencies-none-purple)
@@ -241,22 +241,58 @@ ClearBuffer();
   * Frees memory allocated by the library for returned pointers (e.g. hex strings).
 
 * `int RgbToRgbDec(RgbColor clr)`
-  * Converts RGB to decimal integer (0x00RRGGBB).
+  * Converts RGB to decimal integer format (0xRRGGBB).
 
 * `int RgbToArgbDec(RgbColor clr)`
   * Converts RGB to decimal integer with alpha (0xAARRGGBB).
 
 * `LinearColor RgbToLinear(RgbColor clr)`
   * Converts an 8-bit per channel RgbColor (sRGB) into a high-precision (64-bit) LinearColor (Linear space). This is ideal for color math, blending, and lighting calculations to avoid gamma-related inaccuracies.
+  * The conversion applies the standard sRGB gamma correction formula to convert from the nonlinear sRGB space to linear light values, which more accurately represent how light behaves in the real world. The alpha channel is typically treated as linear and does not undergo gamma correction.
+  * **Returns**: A `LinearColor` structure with high-precision linear RGB values suitable for advanced color processing.
 
 * `RgbColor LinearToRgb(LinearColor lClr)`
   * Converts a high-precision (64-bit) LinearColor back into a standard 8-bit RgbColor (sRGB). This method applies the inverse sRGB gamma curve and clamps values to the 0-255 range for display.
+  * This is typically used after performing color math in linear space to convert the results back to sRGB for display on screens, which expect nonlinear sRGB values.
+  * **Returns**: An `RgbColor` structure with 8-bit RGB values suitable
 
 * `double SrgbToLinear(double srgb)`
   * Calculates the linear equivalent of a single sRGB channel. Input is expected to be a normalized value (0.0 to 1.0).
+  * The conversion applies the standard sRGB gamma correction formula to convert from the nonlinear sRGB space to linear light values, which more accurately represent how light behaves in the real world.
+  * **Returns**: The linear value as a 64-bit floating-point number, typically in the range [0.0, 1.0], where 0.0 is black and 1.0 is white.
 
 * `double LinearToSrgb(double linear)`
   * Calculates the sRGB equivalent of a single linear channel. Input is expected to be a normalized value (0.0 to 1.0).
+  * The conversion applies the inverse sRGB gamma correction formula to convert from linear light values back to the nonlinear sRGB space.
+  * **Returns**: The sRGB value as a 64-bit floating-point number, typically in the range [0.0, 1.0], where 0.0 is black and 1.0 is white.
+
+* `double GetRelativeLuminance(RgbColor rgb)`
+  * Calculates the relative luminance of an RGB color using the standard formula that accounts for human perception of brightness. This is often used in contrast ratio calculations for accessibility.
+  * **Returns**: The relative luminance value as a 64-bit floating-point number, typically in the range [0.0, 1.0], where 0.0 is black and 1.0 is white.
+
+* `double GetPerceptualBrightness(RgbColor rgb)`
+  * Calculates the perceptual brightness of an RGB color using a formula that weights the red, green, and blue components according to human visual sensitivity. This is often used for determining text color contrast and overall color visibility.
+  * **Returns**: The perceptual brightness value as a 64-bit floating-point number, typically in the range [0.0, 255.0], where higher values indicate brighter colors.
+
+* `double GetHslLightness(RgbColor rgb)`
+  * Calculates the lightness component of the HSL (Hue, Saturation, Lightness) color model from an RGB color. The lightness value represents the perceived brightness of the color, where 0.0 is black, 1.0 is white, and 0.5 is the pure hue with no added white or black.
+  * **Returns**: The lightness value as a 64-bit floating-point number, typically in the range [0.0, 1.0].
+
+* `double GetHslSaturation(RgbColor rgb)`
+  * Calculates the saturation component of the HSL (Hue, Saturation, Lightness) color model from an RGB color. The saturation value represents the intensity or purity of the color, where 0.0 is completely desaturated (gray) and 1.0 is fully saturated (vivid color).
+  * **Returns**: The saturation value in HSL color space as a 64-bit floating-point number, typically in the range [0.0, 1.0].  
+
+* `double GetHue(RgbColor rgb)`
+  * Calculates the Hue component of the HSV/HSL color model from an RGB color. The hue value represents the type of color (e.g., red, green, blue) and is typically measured in degrees on the color wheel, where 0&deg; is red, 120&deg; is green, and 240&deg; is blue.
+  * **Returns**: The hue value as a 64-bit floating-point number, typically in the range [0.0, 360.0) degrees.
+
+* `double GetHsvSaturation(RgbColor rgb)`
+  * Calculates the Saturation component of the HSV (Hue, Saturation, Value) color model from an RGB color.
+  * **Returns**: The saturation value in the HSV color space as a 64-bit floating-point number, typically in the range [0.0, 1.0].
+
+* `double GetHsvBrightness(RgbColor rgb)`
+  * Calculates the Brightness component of the HSV (Hue, Saturation, Value) color model from an RGB color.
+  * **Returns**: The brightness value as a 64-bit floating-point number.
 
 **Understanding Linear/NonLinear Curve**<br/>
 The sRGB curve is designed to mimic how human eyes perceive darkness, while the Linear curve is what physics (light) actually follows.  When performing color math, using Linear space prevents the inaccuracies that arise from the nonlinear sRGB encoding. After calculations, converting back to sRGB ensures the colors display correctly on screens.<br/>
@@ -267,9 +303,6 @@ The conversion functions apply the standard sRGB gamma correction formula:
 - For Linear to sRGB:
   - if `linear <= 0.0031308`, then `srgb = linear * 12.92`
   - if `linear > 0.0031308`, then `srgb = 1.055 * pow(linear,(1/2.4)) - 0.055`
-
-**Important Note**: 
-- The Alpha (transparency) channel is typically treated as linear and does not undergo gamma correction during these conversions.
 
 ---
 
@@ -401,7 +434,10 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Version History
 
-- **6.3.18.2120** - Current release
+- **6.3.19.0100** - Current release
+  - Added methods, GetHue(), GetHsvSaturation(), GetHslSaturation(), GetHslLightness(), GetHsvBrightness(), GetRelativeLuminance(), and GetPerceptualBrightness(). These methods provide additional color information and are useful for tasks like determining text contrast, performing color adjustments, and analyzing color properties for accessibility and design purposes.
+
+- **6.3.18.2120**
   - Added RGB to Linear and Linear to RGB conversions for applications that require linear color space processing, such as advanced graphics rendering and color grading workflows.  Also added SrgbToLinear and LinearToSrgb functions for single channel conversions to support more granular color adjustments in linear space.
 
 - **6.3.7.0201**

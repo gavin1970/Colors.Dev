@@ -12,10 +12,7 @@ extern "C" {
 
 #include "import_exports.h"
 #include "color_types.h"
-#include <stdint.h>             // For uint32_t type
 
-typedef uint32_t colors_dev_color32;
-typedef double colors_dev_float64;
 
 /// <summary>
 /// Converts an RGB color to its hexadecimal string representation.

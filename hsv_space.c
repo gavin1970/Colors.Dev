@@ -81,3 +81,16 @@ COLORS_DEV_API HsvSpace RgbToHsv(RgbColor rgb)
     HsvSpace hsv = { h, s * 100.0, v * 100.0, raw };
     return hsv;
 }
+
+COLORS_DEV_API colors_dev_float64 GetHue(RgbColor rgb) {
+    return RgbToHsv(rgb).hue;
+}
+
+COLORS_DEV_API colors_dev_float64 GetHsvSaturation(RgbColor rgb)
+{
+    return RgbToHsv(rgb).saturation;
+}
+
+COLORS_DEV_API colors_dev_float64 GetHsvBrightness(RgbColor rgb) {
+	return RgbToHsv(rgb).raw_value;
+}

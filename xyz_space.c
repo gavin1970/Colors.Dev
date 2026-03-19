@@ -95,3 +95,12 @@ COLORS_DEV_API LabSpace XyzToLab(XyzSpace xyz)
 {
     return XyzToLab_White(xyz, WP_D65_FULL);     // WP_D65_FULL - default, WP_D65 is the other options
 }
+
+COLORS_DEV_API colors_dev_float64 GetRelativeLuminance(RgbColor rgb)
+{
+    return RgbToXyz(rgb).y;
+}
+
+COLORS_DEV_API colors_dev_float64 GetPerceptualBrightness(RgbColor rgb) {
+    return RgbToLab(rgb).l;
+}

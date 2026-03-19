@@ -84,3 +84,11 @@ COLORS_DEV_API RgbColor HslToRgb(HslSpace hsl)
     return rgb;
 }
 
+COLORS_DEV_API colors_dev_float64 GetHslLightness(RgbColor rgb) {
+    return RgbToHsl(rgb).raw_lightness;
+}
+
+COLORS_DEV_API colors_dev_float64 GetHslSaturation(RgbColor rgb)
+{
+    return RgbToHsl(rgb).saturation;
+}
