@@ -51,6 +51,17 @@ COLORS_DEV_API colors_dev_float64 GetHsvSaturation(RgbColor rgb);
 /// <returns>The brightness value as a 64-bit floating point number.</returns>
 COLORS_DEV_API colors_dev_float64 GetHsvBrightness(RgbColor rgb);
 
+/// <summary>
+/// NOTE: Remember to free the returned string using FreeAllocPtr when done.  
+/// This function analyzes the HSV components of the RGB color to determine its tone, 
+/// which can be described as light, dark, muted, vibrant, etc., based on the 'value'
+/// and 'saturation levels. The specific criteria for determining the tone may 
+/// vary, but generally:
+/// </summary>
+/// <param name="rgb">The RGB color value to analyze.</param>
+/// <returns>A string describing the tone of the color.</returns>
+COLORS_DEV_API char* GetTone(RgbColor clr);
+
 // --- End of "extern C" block ---
 #ifdef __cplusplus
 }

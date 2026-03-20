@@ -1,6 +1,6 @@
 # Colors.Dev
 
-[![Version](https://img.shields.io/badge/version-6.3.19.0210-blue.svg)](https://github.com/colors-dev/Colors.Dev)
+[![Version](https://img.shields.io/badge/version-6.3.20.1712-blue.svg)](https://github.com/colors-dev/Colors.Dev)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/colors-dev/Colors.Dev/blob/master/LICENSE.md)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-purple.svg)<br/>
 ![Dependencies](https://img.shields.io/badge/dependencies-none-purple)
@@ -13,6 +13,9 @@ A lightweight, cross-platform C/C++ library with .NET interop for color manipula
 ## Features
 
 - **Color Space Conversions**: Convert between RGB, HSV, HSL, CMYK, XYZ, Lab, Lch, Luv, sRGB, and Linear color spaces.
+- **Color Characteristics**: Tone, Temperature, Brightness, Luminance, Contrast Ratio, and more.
+- **Color Relationships**: Complementary, Analogous, Triadic, Tetradic color generation.
+- **Color Representation**: CMYK Modifiers, Hex and Decimal format conversions.
 - **Console Color Support**: Set 24-bit true colors for foreground and background in console applications
 - **ANSI Escape Sequences**: Automatic ANSI color code generation for terminal rendering
 - **Cross-Language Support**: Native C/C++ library with .NET interop examples
@@ -261,6 +264,16 @@ ClearBuffer();
   * The conversion applies the standard sRGB gamma correction formula to convert from the nonlinear sRGB space to linear light values, which more accurately represent how light behaves in the real world.
   * **Returns**: The linear value as a 64-bit floating-point number, typically in the range [0.0, 1.0], where 0.0 is black and 1.0 is white.
 
+    **Understanding Linear/NonLinear Curve**<br/>
+    The sRGB curve is designed to mimic how human eyes perceive darkness, while the Linear curve is what physics (light) actually follows.  When performing color math, using Linear space prevents the inaccuracies that arise from the nonlinear sRGB encoding. After calculations, converting back to sRGB ensures the colors display correctly on screens.<br/>
+    The conversion functions apply the standard sRGB gamma correction formula:
+    - For sRGB to Linear: 
+      - if `srgb <= 0.04045`, then `linear = srgb / 12.92`
+      - if `srgb > 0.04045`, then `linear = pow((srgb + 0.055) / 1.055, 2.4)`
+    - For Linear to sRGB:
+      - if `linear <= 0.0031308`, then `srgb = linear * 12.92`
+      - if `linear > 0.0031308`, then `srgb = 1.055 * pow(linear,(1/2.4)) - 0.055`
+
 * `double LinearToSrgb(double linear)`
   * Calculates the sRGB equivalent of a single linear channel. Input is expected to be a normalized value (0.0 to 1.0).
   * The conversion applies the inverse sRGB gamma correction formula to convert from linear light values back to the nonlinear sRGB space.
@@ -302,15 +315,32 @@ ClearBuffer();
   * Determines whether black or white text would provide better contrast against a given background color. This is useful for ensuring text readability and accessibility when dynamically setting console colors or designing user interfaces.
   * **Returns**: A `uint` representing either black 0 or white 1 depending on which provides better contrast against the input background color.
 
-**Understanding Linear/NonLinear Curve**<br/>
-The sRGB curve is designed to mimic how human eyes perceive darkness, while the Linear curve is what physics (light) actually follows.  When performing color math, using Linear space prevents the inaccuracies that arise from the nonlinear sRGB encoding. After calculations, converting back to sRGB ensures the colors display correctly on screens.<br/>
-The conversion functions apply the standard sRGB gamma correction formula:
-- For sRGB to Linear: 
-  - if `srgb <= 0.04045`, then `linear = srgb / 12.92`
-  - if `srgb > 0.04045`, then `linear = pow((srgb + 0.055) / 1.055, 2.4)`
-- For Linear to sRGB:
-  - if `linear <= 0.0031308`, then `srgb = linear * 12.92`
-  - if `linear > 0.0031308`, then `srgb = 1.055 * pow(linear,(1/2.4)) - 0.055`
+* `char* GetTone(RgbColor rgb)`
+  * Determines the tone of an RGB color (e.g., "Light", "Dark", "Medium") based on its brightness, saturation, and special case logic, hue. This can be useful for categorizing colors or making design decisions.
+  * **Returns**: A string literal representing the tone category of the color.
+
+  **Tone (Hue-Weighted Neutrality)**
+  |Property|Behavior|Benefit|
+  |--------|--------|-------|
+  |Dynamic Neutrality|Shifts the s threshold based on Hue.|Prevents "Deep Blues" from being called Neutral while catching "Muddy Yellows" correctly.|
+  |Shadow Fidelity|Specialized logic for `v < 20.0` threshold is the hand off point where the library shifts from standard brightness logic to the hue-weighted saturation checks|Accurately distinguishes between a "Dark Gray" and a "Midnight Blue."|
+
+  **Tone (Perceptual Quality)**
+  |Group|Key Tones|
+  |--------|--------|
+  |High Clarity|"Vivid, Bright, Pastel"|
+  |Mid-Range|"Strong, Moderate, Muted Light"|
+  |Low-Light|"Deep, Very Dark, Dull"|
+  |Neutrals|"Near White, Light/Mid/Dark Neutral, Near Black, Black"|
+
+  **Tone (Categorical Description)**
+  |Category|Tones|Logic Description|
+  |--------|--------|----------------|
+  |Achromatic|"Black, Near Black, Near White"|Colors with near-zero saturation or extreme values.|
+  |Neutrals|"Light, Mid, Dark Neutral"|Colors with low saturation (s<20%) across the brightness scale.|
+  |Vibrant|"Vivid, Strong, Bright"|"High-saturation colors that ""pop"" visually."|
+  |Soft/Muted|"Pastel, Moderate, Dull"|Mid-to-low saturation colors with a softer feel.|
+  |Dark Chromatic|"Deep, Very Dark"|"Dark colors that still retain a clear ""hue"" identity (e.g., Navy, Maroon)."|
 
 ---
 
@@ -442,7 +472,10 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Version History
 
-- **6.3.19.0210** - Current release
+- **6.3.20.1712** - Current release
+  - Added GetTone() method to determine the tone category of an RGB color based on its brightness, saturation, and special case logic. This can be useful for categorizing colors or making design decisions based on the perceived tone of a color (e.g., "Light", "Dark", "Medium", "Vibrant", "Muted", etc.). The method uses a combination of brightness and saturation thresholds, along with hue-based adjustments, to classify colors into meaningful tone categories.
+
+- **6.3.19.0210**
   - Added GetBestContrastColor() method to determine whether black or white text would provide better contrast against a given background color. This is useful for ensuring text readability and accessibility when dynamically setting console colors or designing user interfaces.
 
 - **6.3.19.0100**

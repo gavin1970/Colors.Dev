@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 
 [StructLayout(LayoutKind.Sequential)]
@@ -109,6 +110,23 @@ internal static class ColorApi
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern RgbColor HsvToRgb(HsvSpace hsv);
 
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+    private static extern nint GetTone(RgbColor rgb);
+    internal static string GetColorTone(RgbColor rgb)
+    {
+        nint p = GetTone(rgb);
+        try
+        {
+            //p = GetTone(rgb);
+            if (p == 0) return string.Empty;
+            return Marshal.PtrToStringUTF8(p) ?? string.Empty;
+        }
+        finally
+        {
+            FreeAllocPtr(p);
+        }
+    }
+
     // --- HSL Conversions ---
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
@@ -176,7 +194,21 @@ internal static class ColorApi
 
     //[return: MarshalAs(UnmanagedType.LPStr)]
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
-    internal static extern nint RgbToRgbHex(RgbColor rgb, [MarshalAs(UnmanagedType.I1)] bool includeAlpha);
+    private static extern nint RgbToRgbHex(RgbColor rgb, [MarshalAs(UnmanagedType.I1)] bool includeAlpha);
+    internal static string GetRgbHex(RgbColor rgb, bool includeAlpha)
+    {
+        nint p = 0;
+        try
+        {
+            p = RgbToRgbHex(rgb, includeAlpha);
+            if (p == 0) return string.Empty;
+            return Marshal.PtrToStringUTF8(p) ?? string.Empty;
+        }
+        finally
+        {
+            FreeAllocPtr(p);
+        }
+    }
 
     // --- Set Console Colors by struct ---
 
@@ -233,10 +265,10 @@ internal static class ColorApi
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     private static extern uint GetBestContrastColor(RgbColor background);
-    public static Color GetIdealText(RgbColor bg)
+    public static Color GetIdealTextColor(RgbColor bg)
     {
-        uint argb = GetBestContrastColor(bg);
-        if ((int)argb == 0)
+        var argb = unchecked((int)GetBestContrastColor(bg));
+        if (argb == 0)
             return Color.Black; //.FromArgb(255, 0, 0, 0);
         else
             return Color.White; //.FromArgb(255, 255, 255, 255);

@@ -81,8 +81,8 @@ namespace CSharpConsole
             var lchFull = LabToLch(labFull);
             var lch64 = LabToLch(lab64);
 
-            var ahex = PtrToUtf8AndFree(RgbToRgbHex(clr, true));     //converts nint to string and frees the pointer, REQUIRED.
-            var hex = PtrToUtf8AndFree(RgbToRgbHex(clr, false));     //converts nint to string and frees the pointer, REQUIRED.
+            var ahex = GetRgbHex(clr, true);
+            var hex = GetRgbHex(clr, false);
 
             int dec = unchecked((int)RgbToRgbDec(clr));
             int aDec = unchecked((int)RgbToArgbDec(clr));
@@ -91,11 +91,9 @@ namespace CSharpConsole
             var hsl_rev = HslToRgb(hsl);
             var cmyk_rev = CmykToRgb(cmyk);
 
-            var background = Color.FromArgb(30, 30, 30);
-            var text = Color.White;
-
             double ratio = GetContrastRatio(clr, textClr);
-            var suggestTextClr = GetIdealText(clr);
+            var suggestTextClr = GetIdealTextColor(clr);
+            var colorTone = GetColorTone(clr);
 
             sb.AppendLine($"{pad} --- Testing {title} - {hex} Conversions ---");
 
@@ -112,6 +110,7 @@ namespace CSharpConsole
             sb.AppendLine($"{pad} - LCHFull: L:{lchFull.l:0.0000}, U:{lchFull.c:0.0000}, V:{lchFull.h:0.0000}");
             sb.AppendLine($"{pad} - ContrastRatio: {ratio:0.00} - {((ratio < 4.5)?"Alert":"Good")}");
             sb.AppendLine($"{pad} - Suggested Text Color: {suggestTextClr}");
+            sb.AppendLine($"{pad} - Tone: {colorTone}");
             sb.AppendLine($"{pad} - HEX8: {ahex}, Dec: {aDec}");
             sb.AppendLine($"{pad} - HEX6: {hex},   Dec: {dec}");
 
@@ -193,20 +192,6 @@ namespace CSharpConsole
                     Console.CursorLeft = curLoc[0];
                 }
                 catch { /*On exit, Console.CursorTop/Left might not be available to set */ }
-            }
-        }
-
-        static string PtrToUtf8AndFree(nint p)
-        {
-            if (p == 0) return string.Empty;
-
-            try
-            {
-                return Marshal.PtrToStringUTF8(p) ?? string.Empty;
-            }
-            finally
-            {
-                FreeAllocPtr(p);
             }
         }
     }
