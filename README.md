@@ -10,11 +10,11 @@ A lightweight, cross-platform C/C++ library with .NET interop for color manipula
 
 ---
 
-## Features
+## Features (the items with strikethough are planned but not yet implemented)
 
 - **Color Space Conversions**: Convert between RGB, HSV, HSL, CMYK, XYZ, Lab, Lch, Luv, sRGB, and Linear color spaces.
-- **Color Characteristics**: Tone, Temperature, Brightness, Luminance, Contrast Ratio, and more.
-- **Color Relationships**: Complementary, Analogous, Triadic, Tetradic color generation.
+- **Color Characteristics**: Tone, ~~Temperature~~, Brightness, Luminance, Contrast Ratio, and more.
+- **Color Relationships**: ~~Complementary~~, ~~Analogous~~, ~~Triadic~~, ~~Tetradic~~ color generation.
 - **Color Representation**: CMYK Modifiers, Hex and Decimal format conversions.
 - **Console Color Support**: Set 24-bit true colors for foreground and background in console applications
 - **ANSI Escape Sequences**: Automatic ANSI color code generation for terminal rendering
