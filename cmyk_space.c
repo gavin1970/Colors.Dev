@@ -66,8 +66,7 @@ COLORS_DEV_API RgbColor CmykToRgb(CmykSpace cmyk)
     return rgb;
 }
 
-//*
-COLORS_DEV_API char* GetCymkMod(CmykSpace cmyk)
+COLORS_DEV_API char* GetCmykMod(CmykSpace cmyk)
 {
     double c = cmyk.cyan;
     double m = cmyk.magenta;
@@ -132,73 +131,3 @@ COLORS_DEV_API char* GetCymkMod(CmykSpace cmyk)
     // 12. Fallthrough
     return createBuffer("Multi-Ink Hue");
 }
-/**/
-
-/*
-COLORS_DEV_API char* GetCmykMod(CmykSpace cmyk)
-{
-    double cyan = cmyk.cyan;
-    double magenta = cmyk.magenta;
-    double yellow = cmyk.yellow;
-    double key = cmyk.key;
-
-    // High Black (K) values
-    if (key > 95.0f)
-        return createBuffer("Deep Inky Black");
-    if (key > 85.0f)
-        return createBuffer("Rich Blackened");
-    if (key > 70.0f)
-        return createBuffer("Darkened");
-
-    // High single CMY values with low others
-    if (cyan > 90.0f && magenta < 15.0f && yellow < 15.0f)
-        return createBuffer("Vivid Cyan");
-    if (magenta > 90.0f && cyan < 15.0f && yellow < 15.0f)
-        return createBuffer("Vivid Magenta");
-    if (yellow > 90.0f && cyan < 15.0f && magenta < 15.0f)
-        return createBuffer("Vivid Yellow");
-
-    if (cyan > 70.0f && magenta < 20.0f && yellow < 20.0f)
-        return createBuffer("Strong Cyan");
-    if (magenta > 70.0f && cyan < 20.0f && yellow < 20.0f)
-        return createBuffer("Strong Magenta");
-    if (yellow > 70.0f && cyan < 20.0f && magenta < 20.0f)
-        return createBuffer("Strong Yellow");
-
-    // Dominant CMY combinations
-    if (cyan > 60.0f && magenta > 60.0f && yellow < 20.0f)
-        return createBuffer("Deep Blue Violet");
-    if (cyan > 60.0f && yellow > 60.0f && magenta < 20.0f)
-        return createBuffer("Rich Green");
-    if (magenta > 60.0f && yellow > 60.0f && cyan < 20.0f)
-        return createBuffer("Fiery Red Orange");
-
-    // Muted or balanced tones
-    double diffCM = fabs(cyan - magenta);
-    double diffMY = fabs(magenta - yellow);
-
-    if (diffCM < 15.0 && diffMY < 15.0) {
-        if (key < 35.0) return createBuffer("Neutral Gray"); // Bumped to 35
-        if (key >= 35.0) return createBuffer("Smoky Taupe"); // Catch the rest
-    }
-
-    // Light or pastel tones (low CMY, low K)
-    if (fmax(cyan, fmax(magenta, yellow)) < 30 && key < 10 && fabs(cyan - magenta) < 10 && fabs(magenta - yellow) < 10)
-        return createBuffer("Pale Gray Tint");
-    if (fmax(cyan, fmax(magenta, yellow)) < 30 && key < 10 && (cyan > 5 || magenta > 5 || yellow > 5))
-        return createBuffer("Pale Tint");
-
-    // Almost white, full CMY mix
-    if (cyan > 60.0f && magenta > 60.0f && yellow > 60.0f && key < 20.0f)
-        return createBuffer("Bright Composite Hue");
-    // Or low-K browns
-    if (magenta > 40.0f && yellow > 40.0f && cyan < 30.0f && key > 30.0f)
-        return createBuffer("Burnished Umber");
-
-    // NEW CATCH-ALL FOR NEAR-ZERO INK
-    if (cyan < 5.0 && magenta < 5.0 && yellow < 5.0 && key < 5.0)
-        return createBuffer("Paper White");
-
-    return createBuffer("");
-}
-/**/

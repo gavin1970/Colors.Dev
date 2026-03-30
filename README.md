@@ -1,6 +1,6 @@
 # Colors.Dev
 
-[![Version](https://img.shields.io/badge/version-6.3.20.1712-blue.svg)](https://github.com/colors-dev/Colors.Dev)
+[![Version](https://img.shields.io/badge/version-6.3.30.1352-blue.svg)](https://github.com/colors-dev/Colors.Dev)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/colors-dev/Colors.Dev/blob/master/LICENSE.md)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-purple.svg)<br/>
 ![Dependencies](https://img.shields.io/badge/dependencies-none-purple)
@@ -237,11 +237,23 @@ ClearBuffer();
   * Converts RGB to hex string format.
   *  **includeAlpha = 0**: Returns `#RRGGBB`
   *  **includeAlpha = 1**: Returns `#AARRGGBB`
+  *  **Returns**: A dynamically allocated string containing the hex representation of the RGB color.
   *  **Note**: Caller must free returned string with `FreeAllocPtr()` 
 
+* `char* GetCmykMod(CmykSpace cmyk)`
+  * Generates a CMYK modifier string based on the cyan, magenta, yellow, and black components of a `CmykSpace` structure.
+  * This function is useful for creating descriptive labels or modifiers that represent the CMYK values of a color, which can be used in design applications, printing workflows, or any context where CMYK color information is relevant.
+  * **Returns**: A dynamically allocated string containing the CMYK modifier.
+  * **Note**: Caller must free the returned string with `FreeAllocPtr()`.
+
+* `char* GetTone(RgbColor rgb)`
+  * Determines the tone of an RGB color (e.g., "Light", "Dark", "Medium") based on its brightness, saturation, and special case logic, hue. This can be useful for categorizing colors or making design decisions.
+  * **Returns**: A string literal representing the tone category of the color.
+  * **Note**: Caller must free the returned string with `FreeAllocPtr()`.
+
 * `void FreeAllocPtr(void* p)`
-  * Only required after calls to RgbToRgbHex().
-  * Frees memory allocated by the library for returned pointers (e.g. hex strings).
+  * Only required after calls to RgbToRgbHex(), GetTone(), and GetCmykMod().
+  * Frees memory allocated by the library for returned pointers (e.g. hex strings, CMYK modifiers).
 
 * `int RgbToRgbDec(RgbColor clr)`
   * Converts RGB to decimal integer format (0xRRGGBB).
@@ -314,10 +326,6 @@ ClearBuffer();
 * `uint GetBestContrastColor(RgbColor bgColor)`
   * Determines whether black or white text would provide better contrast against a given background color. This is useful for ensuring text readability and accessibility when dynamically setting console colors or designing user interfaces.
   * **Returns**: A `uint` representing either black 0 or white 1 depending on which provides better contrast against the input background color.
-
-* `char* GetTone(RgbColor rgb)`
-  * Determines the tone of an RGB color (e.g., "Light", "Dark", "Medium") based on its brightness, saturation, and special case logic, hue. This can be useful for categorizing colors or making design decisions.
-  * **Returns**: A string literal representing the tone category of the color.
 
   **Tone (Hue-Weighted Neutrality)**
   |Property|Behavior|Benefit|
@@ -472,7 +480,10 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Version History
 
-- **6.3.20.1712** - Current release
+- **6.3.30.1352**  - Current release
+  - Added GetCmykMod() method to generate a CMYK modifier string based on the cyan, magenta, yellow, and black components of a CmykSpace structure. This function is useful for creating descriptive labels or modifiers that represent the CMYK values of a color, which can be used in design applications, printing workflows, or any context where CMYK color information is relevant. The method dynamically constructs a string that includes the CMYK values in a readable format, making it easier for developers to understand and utilize the CMYK information associated with a color.
+
+- **6.3.20.1712**
   - Added GetTone() method to determine the tone category of an RGB color based on its brightness, saturation, and special case logic. This can be useful for categorizing colors or making design decisions based on the perceived tone of a color (e.g., "Light", "Dark", "Medium", "Vibrant", "Muted", etc.). The method uses a combination of brightness and saturation thresholds, along with hue-based adjustments, to classify colors into meaningful tone categories.
 
 - **6.3.19.0210**
@@ -503,7 +514,7 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
   - Updated version to existing Chizl standard using UTC timestamp.  Added RGB to CMYK and CMYK to RGB conversions.
 
 - **1.3.1**
-  - Separated RGB, HSL, HSV, XYZ, and Lab color space structures into separate files for better organization and clarity in the API, before adding in CYMK, LUV, etc.
+  - Separated RGB, HSL, HSV, XYZ, and Lab color space structures into separate files for better organization and clarity in the API, before adding in CMYK, LUV, etc.
 
 - **1.2.1**
   - Added LabSpace color space conversions (XYZ to Lab) with use of D64 or D64_Full white point types for precision control.
