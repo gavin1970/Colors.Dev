@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+  <metadata>
+    <id>Colors.Dev</id>
+    <version>6.3.30.1</version>
+    <title>Colors.Dev - Native C Color Library</title>
+    <authors>colors.dev</authors>
+    <owners>colors.dev</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <projectUrl>https://github.com/colors-dev/Colors.Dev</projectUrl>
+    <description>A cross-platform native C library for color space conversions and ANSI terminal color printing. Supports RGB, HSV, HSL, CMYK, XYZ, LUV, and LCH color spaces.</description>
+    <copyright>Copyright (C) 2026 colors.dev</copyright>
+    <tags>native cpp c color colors rgb hsv hsl cmyk xyz luv lch ansi terminal</tags>
+    <readme>README.md</readme>
+  </metadata>
+  <files>
+    <!-- License and README -->
+    <file src="LICENSE.md" target="" />
+    <file src="README.md" target="" />
+
+    <!-- Headers -->
+    <file src="ansi_printing.h" target="build\native\include\" />
+    <file src="cmyk_space.h" target="build\native\include\" />
+    <file src="color_support.h" target="build\native\include\" />
+    <file src="color_types.h" target="build\native\include\" />
+    <file src="common.h" target="build\native\include\" />
+    <file src="framework.h" target="build\native\include\" />
+    <file src="hsl_space.h" target="build\native\include\" />
+    <file src="hsv_space.h" target="build\native\include\" />
+    <file src="import_exports.h" target="build\native\include\" />
+    <file src="lch_space.h" target="build\native\include\" />
+    <file src="luv_space.h" target="build\native\include\" />
+    <file src="rgb_color.h" target="build\native\include\" />
+    <file src="white_points.h" target="build\native\include\" />
+    <file src="xyz_space.h" target="build\native\include\" />
+
+    <!-- Import libraries (for linking) -->
+    <file src="Win32\Release\Colors.Dev.lib" target="lib\native\Win32\" />
+    <file src="x64\Release\Colors.Dev.lib" target="lib\native\x64\" />
+
+    <!-- Runtime DLLs -->
+    <file src="Win32\Release\Colors.Dev.dll" target="runtimes\win-x86\native\" />
+    <file src="x64\Release\Colors.Dev.dll" target="runtimes\win-x64\native\" />
+
+    <!-- Build integration -->
+    <file src="Colors.Dev.targets" target="build\native\" />
+  </files>
+</package>
