@@ -60,14 +60,42 @@ COLORS_DEV_API colors_dev_float64 GetHsvBrightness(RgbColor rgb);
 /// </summary>
 /// <param name="rgb">The RGB color value to analyze.</param>
 /// <returns>A string describing the tone of the color.</returns>
-COLORS_DEV_API char* GetTone(RgbColor clr);
+COLORS_DEV_API char* GetTone(RgbColor rgb);
 
 /// <summary>
 /// Gets the temperature classification of an RGB color.
 /// </summary>
 /// <param name="clr">The RGB color to analyze.</param>
 /// <returns>A string representing the 16 temperature classifications of the color (e.g., 'warm', 'cool').</returns>
-COLORS_DEV_API char* GetTemperature(RgbColor clr);
+COLORS_DEV_API char* GetTemperature(RgbColor rgb);
+
+/// <summary>
+/// Gets the complementary color of the specified RGB color.
+/// </summary>
+/// <param name="clr">The RGB color for which to find the complementary color.</param>
+/// <returns>The complementary RGB color.</returns>
+COLORS_DEV_API RgbColor GetComplementary(RgbColor rgb);
+
+/// <summary>
+/// Generates an analogous color scheme from the given RGB color.
+/// </summary>
+/// <param name="rgb">The RGB color to generate an analogous color scheme from.</param>
+/// <returns>An AnalogousResults object containing the analogous color scheme.</returns>
+COLORS_DEV_API AnalogousResults GetAnalogous(RgbColor rgb);
+
+/// <summary>
+/// Computes the triadic color scheme for a given RGB color.
+/// </summary>
+/// <param name="clr">The RGB color to compute the triadic scheme for.</param>
+/// <returns>A TriadicResults object containing the triadic color scheme colors.</returns>
+COLORS_DEV_API TriadicResults GetTriadic(RgbColor rgb);
+
+/// <summary>
+/// Computes a tetradic (four-color) color scheme based on the given RGB color.
+/// </summary>
+/// <param name="rgb">The RGB color to use as the basis for the tetradic color scheme.</param>
+/// <returns>A TetradicResults object containing the four colors that form a tetradic relationship with the input color.</returns>
+COLORS_DEV_API TetradicResults GetTetradic(RgbColor rgb);
 
 // --- End of "extern C" block ---
 #ifdef __cplusplus

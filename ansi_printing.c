@@ -43,6 +43,21 @@ COLORS_DEV_API void SetBgColor(unsigned char red, unsigned char green, unsigned 
     PrintAnsiColor(0, red, green, blue); 
 }
 
+COLORS_DEV_API char* GetFgColor(RgbColor fg)
+{
+    char code[50];
+    sprintf_s(code, sizeof(code), "\x1b[%d;2;%u;%u;%um", 38, fg.red, fg.green, fg.blue);
+    return createBuffer(code);
+}
+
+COLORS_DEV_API char* GetBgColor(RgbColor bg)
+{
+    char code[50];
+    sprintf_s(code, sizeof(code), "\x1b[%d;2;%u;%u;%um", 48, bg.red, bg.green, bg.blue);
+    return createBuffer(code);
+}
+
+
 COLORS_DEV_API void ResetColor(void) 
 { 
     printf("\x1b[0m"); 

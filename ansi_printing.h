@@ -58,6 +58,22 @@ extern "C" {
     /// </summary>
     COLORS_DEV_API void ClearBuffer(void);
 
+    /// <summary>
+	/// Gets the foreground color as a string representation.<br/>
+    /// Requires FreeAllocPtr to be called on the returned string when done to avoid memory leaks.
+    /// </summary>
+    /// <param name="fg">The RGB color value for the foreground.</param>
+    /// <returns>A pointer to a character string representing the foreground color.</returns>
+    COLORS_DEV_API char* GetFgColor(RgbColor fg);
+
+    /// <summary>
+    /// Gets the background color as a string representation.<br/>
+    /// Requires FreeAllocPtr to be called on the returned string when done to avoid memory leaks.
+    /// </summary>
+    /// <param name="bg">The RGB color value for the background.</param>
+    /// <returns>A pointer to a character string representing the background color.</returns>
+    COLORS_DEV_API char* GetBgColor(RgbColor bg);
+
 // --- End of "extern C" block ---
 #ifdef __cplusplus
 }

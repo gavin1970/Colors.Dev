@@ -1,8 +1,41 @@
 ﻿using System.Drawing;
-using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 
-[StructLayout(LayoutKind.Sequential)]
+[StructLayout(LayoutKind.Explicit, Size = 8)]
+internal struct TriadicResults
+{
+    [FieldOffset(0)] public RgbColor Color1;
+    [FieldOffset(4)] public RgbColor Color2;
+    public RgbColor[] GetColors()
+    {
+        return new RgbColor[] { Color1, Color2 };
+    }
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 12)] // 3 colors * 4 bytes
+internal struct TetradicResults
+{
+    [FieldOffset(0)] public RgbColor Color1;
+    [FieldOffset(4)] public RgbColor Color2;
+    [FieldOffset(8)] public RgbColor Color3;
+    public RgbColor[] GetColors()
+    {
+        return new RgbColor[] { Color1, Color2, Color3 };
+    }
+}
+
+[StructLayout(LayoutKind.Explicit, Size = 8)]
+internal struct AnalogousResults
+{
+    [FieldOffset(0)] public RgbColor Color1;
+    [FieldOffset(4)] public RgbColor Color2;
+    public RgbColor[] GetColors()
+    {
+        return new RgbColor[] { Color1, Color2 };
+    }
+}
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)] // Pack=1 removes padding
 internal struct RgbColor
 {
     public byte alpha;
@@ -109,6 +142,9 @@ internal static class ColorApi
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern RgbColor HsvToRgb(HsvSpace hsv);
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    public static extern RgbColor GetComplementary(RgbColor rgb);
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
     private static extern nint GetTone(RgbColor rgb);
@@ -259,6 +295,40 @@ internal static class ColorApi
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
     public static extern void SetBgColor(uint red, uint green, uint blue);
 
+    // --- Get Console Colors by represented string ---
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+    private static extern nint GetFgColor(RgbColor fg);
+    internal static string FGAscii(RgbColor fg)
+    {
+        nint p = GetFgColor(fg);
+        try
+        {
+            if (p == 0) return string.Empty;
+            return Marshal.PtrToStringUTF8(p) ?? string.Empty;
+        }
+        finally
+        {
+            FreeAllocPtr(p);
+        }
+    }
+    
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+    private static extern nint GetBgColor(RgbColor bg);
+    internal static string BGAscii(RgbColor bg)
+    {
+        nint p = GetBgColor(bg);
+        try
+        {
+            if (p == 0) return string.Empty;
+            return Marshal.PtrToStringUTF8(p) ?? string.Empty;
+        }
+        finally
+        {
+            FreeAllocPtr(p);
+        }
+    }
+
     // --- Reset Foreground and Background Colors ---
 
     [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
@@ -305,5 +375,29 @@ internal static class ColorApi
             return Color.Black; //.FromArgb(255, 0, 0, 0);
         else
             return Color.White; //.FromArgb(255, 255, 255, 255);
+    }
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    private static extern TriadicResults GetTriadic(RgbColor rgb);
+    public static RgbColor[] GetTriadicColors(RgbColor rgb)
+    {
+        TriadicResults results = GetTriadic(rgb);
+        return results.GetColors();
+    }
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    private static extern TetradicResults GetTetradic(RgbColor rgb);
+    public static RgbColor[] GetTetradicColors(RgbColor rgb)
+    {
+        TetradicResults results = GetTetradic(rgb);
+        return results.GetColors();
+    }
+
+    [DllImport(DllName, CallingConvention = CallingConvention.Cdecl)]
+    private static extern AnalogousResults GetAnalogous(RgbColor rgb);
+    public static RgbColor[] GetAnalogousColors(RgbColor rgb)
+    {
+        AnalogousResults results = GetAnalogous(rgb);
+        return results.GetColors();
     }
 }

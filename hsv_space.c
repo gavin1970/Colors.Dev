@@ -81,7 +81,8 @@ COLORS_DEV_API HsvSpace RgbToHsv(RgbColor rgb)
     return hsv;
 }
 
-COLORS_DEV_API colors_dev_float64 GetHue(RgbColor rgb) {
+COLORS_DEV_API colors_dev_float64 GetHue(RgbColor rgb) 
+{
     return RgbToHsv(rgb).hue;
 }
 
@@ -90,12 +91,14 @@ COLORS_DEV_API colors_dev_float64 GetHsvSaturation(RgbColor rgb)
     return RgbToHsv(rgb).saturation;
 }
 
-COLORS_DEV_API colors_dev_float64 GetHsvBrightness(RgbColor rgb) {
+COLORS_DEV_API colors_dev_float64 GetHsvBrightness(RgbColor rgb) 
+{
 	return RgbToHsv(rgb).raw_value;
 }
 
-COLORS_DEV_API char* GetTone(RgbColor clr) {
-    HsvSpace hsv = RgbToHsv(clr);
+COLORS_DEV_API char* GetTone(RgbColor rgb)
+{
+    HsvSpace hsv = RgbToHsv(rgb);
     double h = hsv.hue;
     double v = hsv.value;
     double s = hsv.saturation;
@@ -137,11 +140,12 @@ COLORS_DEV_API char* GetTone(RgbColor clr) {
     return createBuffer("Washed Out"); // Accessible if top Neutral thresholds are ever adjusted
 }
 
-COLORS_DEV_API char* GetTemperature(RgbColor clr) {
+COLORS_DEV_API char* GetTemperature(RgbColor rgb)
+{
 
     // Using rgb instead of just hue, allows us to handle edge cases 
     // like pure white (0 saturation) and near-neutral colors more effectively.
-    HsvSpace hsv = RgbToHsv(clr);
+    HsvSpace hsv = RgbToHsv(rgb);
     double h = hsv.hue;
     double s = hsv.saturation;
     double v = hsv.value;
@@ -180,4 +184,65 @@ COLORS_DEV_API char* GetTemperature(RgbColor clr) {
 
     // Fallback: Magenta bridge
     return isMuted ? createBuffer("Muted Neutral-Warm") : createBuffer("Neutral-Warm");
+}
+
+COLORS_DEV_API RgbColor GetComplementary(RgbColor rgb)
+{
+    // Using rgb instead of just hue, allows us to handle edge cases 
+    // like pure white (0 saturation) and near-neutral colors more effectively.
+    HsvSpace hsv = RgbToHsv(rgb);
+    double newHue = hsv.hue + 180.0;        // Shift hue by 180 degrees to get the complementary color
+	if (newHue >= 360.0) newHue -= 360.0;   // Wrap around if hue exceeds 360 degrees
+
+    HsvSpace hsvRet = { newHue, hsv.saturation, hsv.value, hsv.raw_value };
+    return HsvToRgb(hsvRet);
+}
+
+COLORS_DEV_API TriadicResults GetTriadic(RgbColor rgb)
+{
+    HsvSpace hsv = RgbToHsv(rgb);
+    TriadicResults result;
+
+    double angles[2] = { 120.0, 240.0 };
+
+    for (int i = 0; i < 2; i++) {
+        double newHue = fmod(hsv.hue + angles[i], 360.0);
+        HsvSpace hsvNext = { newHue, hsv.saturation, hsv.value, hsv.raw_value };
+        result.colors[i] = HsvToRgb(hsvNext);
+    }
+
+    return result;
+}
+
+COLORS_DEV_API AnalogousResults GetAnalogous(RgbColor rgb)
+{
+    HsvSpace hsv = RgbToHsv(rgb);
+    AnalogousResults res;
+
+    // Clockwise (+30)
+    double hPlus = fmod(hsv.hue + 30.0, 360.0);
+    res.colors[0] = HsvToRgb((HsvSpace) { hPlus, hsv.saturation, hsv.value, hsv.raw_value });
+
+    // Counter-Clockwise (-30)
+    double hMinus = hsv.hue - 30.0;
+    if (hMinus < 0) hMinus += 360.0;
+    res.colors[1] = HsvToRgb((HsvSpace) { hMinus, hsv.saturation, hsv.value, hsv.raw_value });
+
+    return res;
+}
+
+COLORS_DEV_API TetradicResults GetTetradic(RgbColor rgb)
+{
+    HsvSpace hsv = RgbToHsv(rgb);
+    TetradicResults result;
+
+    double angles[3] = { 90.0, 180.0, 270.0 };
+
+    for (int i = 0; i < 3; i++) {
+        double newHue = fmod(hsv.hue + angles[i], 360.0);
+        HsvSpace hsvNext = { newHue, hsv.saturation, hsv.value, hsv.raw_value };
+        result.colors[i] = HsvToRgb(hsvNext);
+    }
+
+    return result;
 }

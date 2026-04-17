@@ -36,6 +36,37 @@ typedef struct {
 } RgbColor;
 
 /// <summary>
+/// Contains the results of a triadic color harmony calculation.
+/// </summary>
+typedef struct {
+    /// <summary>
+    /// An array of two RgbColor objects representing the triadic colors.
+    /// </summary>
+    RgbColor colors[2];
+} TriadicResults;
+
+/// <summary>
+/// Represents the results of a tetradic color scheme calculation 
+/// containing three complementary colors.
+/// </summary>
+typedef struct {
+    /// <summary>
+    /// An array of four RgbColor objects representing the tetradic colors.
+    /// </summary>
+    RgbColor colors[3];
+} TetradicResults;
+
+/// <summary>
+/// Contains the results of an analogous color scheme calculation.
+/// </summary>
+typedef struct {
+    /// <summary>
+    /// An array of two RgbColor objects.
+    /// </summary>
+    RgbColor colors[2]; // [0] is +30, [1] is -30
+} AnalogousResults;
+
+/// <summary>
 /// Represents a color in linear color space with alpha, red, green, and blue channels.
 /// </summary>
 typedef struct {

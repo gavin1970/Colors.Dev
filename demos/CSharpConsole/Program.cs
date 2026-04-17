@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Text;
 using static ColorApi;
 
 namespace CSharpConsole
@@ -9,9 +7,10 @@ namespace CSharpConsole
     {
         const string welcomeToDemo = " Welcome to the .NET Console Color Demo! ";
         // some stress test colors, and some common ones.
-        static readonly RgbColor rgbNearPureBlack = new RgbColor { alpha = 255, red = 1, blue = 2, green = 3 };
-        static readonly RgbColor rgbDeepNavy = new RgbColor { alpha = 255, red = 18, blue = 86, green = 52 };
-        static readonly RgbColor rgbNearPureWhite = new RgbColor { alpha = 255, red = 254, blue = 253, green = 252 };
+        static readonly RgbColor rgbNearPureBlack = new RgbColor { alpha = 255, red = 1, green = 3, blue = 2 };
+        static readonly RgbColor rgbDeepNavy = new RgbColor { alpha = 255, red = 18, green = 52, blue = 86};
+        static readonly RgbColor rgbNearPureWhite = new RgbColor { alpha = 255, red = 254, green = 252, blue = 253};
+        static readonly RgbColor rgbOrange = new RgbColor { alpha = 255, red = 255, green = 128, blue = 0};
 
         static readonly RgbColor rgbEmpty = new RgbColor { alpha = 0, red = 0, green = 0, blue = 0 };
         static readonly RgbColor rgbRed = new RgbColor { alpha = 255, red = 255, green = 0, blue = 0 };
@@ -23,6 +22,17 @@ namespace CSharpConsole
         static readonly RgbColor rgbBlack = new RgbColor { alpha = 255, red = 0, green = 0, blue = 0 };
         static readonly RgbColor rgbWhite = new RgbColor { alpha = 255, red = 255, green = 255, blue = 255 };
         static readonly RgbColor rgbConsoleBlack = new RgbColor { alpha = 255, red = 12, green = 12, blue = 12 };
+
+        static readonly (RgbColor bgColor, RgbColor fgColor, string title)[] _listOfColors = {
+           (rgbOrange, rgbBlack, "Pure Orange"),
+           (rgbBlue, rgbWhite, "Pure Blue"),
+           (rgbViolet, rgbWhite, "Violet"),
+           (rgbCyan, rgbBlack, "Cyan"),
+           (rgbAshRose, rgbWhite, "Ash Rose"),
+           (rgbNearPureBlack, rgbWhite, "Near Pure Black"),
+           (rgbDeepNavy, rgbWhite, "Deep Navy"),
+           (rgbNearPureWhite, rgbBlack, "Near Pure White")
+        };
 
         static void Main(string[] args)
         {
@@ -51,14 +61,9 @@ namespace CSharpConsole
 
         static void ColorConversionDemo()
         {
-            ShowColorInfo(rgbBlue, rgbWhite, "Blue");
-            ShowColorInfo(rgbViolet, rgbWhite, "Violet");
-            ShowColorInfo(rgbCyan, rgbBlack, "Cyan");
-            ShowColorInfo(rgbAshRose, rgbWhite, "Ash Rose");
-            ShowColorInfo(rgbNearPureBlack, rgbWhite, "Near Pure Black");
-            ShowColorInfo(rgbDeepNavy, rgbWhite, "Deep Navy");
-            ShowColorInfo(rgbNearPureWhite, rgbBlack, "Near Pure White");
-            
+            foreach(var (bgColor, fgColor, title) in _listOfColors)
+                ShowColorInfo(bgColor, fgColor, title);
+
             AnyKey("Press any key to continue...", rgbYellow);
         }
 
@@ -91,14 +96,18 @@ namespace CSharpConsole
             var hsl_rev = HslToRgb(hsl);
             var cmyk_rev = CmykToRgb(cmyk);
 
-            double ratio = GetContrastRatio(clr, textClr);
+            var cc = GetComplementary(clr);
+
+            double ratio = GetContrastRatio(clr, cc);
             var suggestTextClr = GetIdealTextColor(clr);
             var colorTone = GetColorTone(clr);
             var cmykModifier = GetCmykModifier(cmyk);
             var colorTemp = GetColorTemp(clr);
+            var triad = GetTriadicColors(clr);
+            var tetrad = GetTetradicColors(clr);
+            var analogous = GetAnalogousColors(clr);
 
             sb.AppendLine($"{pad} --- Testing {title} - {hex} Conversions ---");
-
             sb.AppendLine($"{pad}'{title}' Color: (R:{clr.red}, G:{clr.green}, B:{clr.blue})");
             sb.AppendLine($"{pad} - HSV: H:{hsv.hue:0.00}, S:{hsv.saturation:0.00}, V:{hsv.value:0.00}, Raw:{hsv.raw_value:0.000000}");
             sb.AppendLine($"{pad} - HSL: H:{hsl.hue:0.00}, S:{hsl.saturation:0.00}, L:{hsl.lightness:0.00}, Raw:{hsl.raw_lightness:0.000000}");
@@ -111,6 +120,7 @@ namespace CSharpConsole
             sb.AppendLine($"{pad} - LUVFull: L:{luvFull.l:0.0000}, U:{luvFull.u:0.0000}, V:{luvFull.v:0.0000}");
             sb.AppendLine($"{pad} - LCH_D64: L:{lch64.l:0.0000}, U:{lch64.c:0.0000}, V:{lch64.h:0.0000}");
             sb.AppendLine($"{pad} - LCHFull: L:{lchFull.l:0.0000}, U:{lchFull.c:0.0000}, V:{lchFull.h:0.0000}");
+            sb.AppendLine($"{pad} - Complementary Color: (R:{cc.red}, G:{cc.green}, B:{cc.blue})");
             sb.AppendLine($"{pad} - ContrastRatio: {ratio:0.00} - {((ratio < 4.5)?"Alert":"Good")}");
             sb.AppendLine($"{pad} - Suggested Text Color: {suggestTextClr}");
             sb.AppendLine($"{pad} - Tone: {colorTone}");
@@ -121,11 +131,37 @@ namespace CSharpConsole
 
             sb.AppendLine($"{pad} - HSV Roundtrip -> RGB: (R:{hsv_rev.red}, G:{hsv_rev.green}, B:{hsv_rev.blue})");
             sb.AppendLine($"{pad} - HSL Roundtrip -> RGB: (R:{hsl_rev.red}, G:{hsl_rev.green}, B:{hsl_rev.blue})");
-            sb.AppendLine($"{pad} - CMYK Roundtrip -> RGB: (R:{hsl_rev.red}, G:{hsl_rev.green}, B:{hsl_rev.blue})");
+            sb.AppendLine($"{pad} - CMYK Roundtrip -> RGB: (R:{cmyk_rev.red}, G:{cmyk_rev.green}, B:{cmyk_rev.blue})");
+
+            //analogous
+            CreateString($"{pad} - Analogous: (R:{clr.red}, G:{clr.green}, B:{clr.blue})", analogous, ref sb);
+            //sb.AppendLine($"{pad} - Analogous: (R:{clr.red}, G:{clr.green}, B:{clr.blue})");
+            //var spacePad = new string(' ', $"{pad} - Analogous: ".Length);
+            //foreach (var val in analogous)
+            //    sb.AppendLine($"{spacePad}(R:{val.red}, G:{val.green}, B:{val.blue})");
+
+            CreateString($"{pad} - Triadic: (R:{clr.red}, G:{clr.green}, B:{clr.blue})", triad, ref sb);
+            //sb.AppendLine($"{pad} - Triadic: (R:{clr.red}, G:{clr.green}, B:{clr.blue})");
+            //spacePad = new string(' ', $"{pad} - Triadic: ".Length);
+            //foreach (var val in triad)
+            //    sb.AppendLine($"{spacePad}(R:{val.red}, G:{val.green}, B:{val.blue})");
+
+            CreateString($"{pad} - Tetradic: (R:{clr.red}, G:{clr.green}, B:{clr.blue})", tetrad, ref sb);
+            //sb.AppendLine($"{pad} - Tetradic: (R:{clr.red}, G:{clr.green}, B:{clr.blue})");
+            //spacePad = new string(' ', $"{pad} - Tetradic: ".Length);
+            //foreach (var val in tetrad)
+            //    sb.AppendLine($"{spacePad}(R:{val.red}, G:{val.green}, B:{val.blue})");
 
             WriteLines(clr, textClr, sb.ToString().Replace("\r", "").Split('\n'), 60);
         }
 
+        static void CreateString(string baseStr, RgbColor[] colors, ref StringBuilder sb)
+        {
+            sb.AppendLine(baseStr);
+            var spacePad = new string(' ', Math.Max(baseStr.IndexOf("("), 0));
+            foreach (var val in colors)
+                sb.AppendLine($"{spacePad}(R:{val.red}, G:{val.green}, B:{val.blue})");
+        }
         static void ConsoleColorPrintDemo()
         {
             int num_spaces = (int)(Console.BufferWidth * 0.5) - (int)(welcomeToDemo.Length * 0.5);
