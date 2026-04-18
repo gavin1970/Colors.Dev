@@ -48,6 +48,7 @@
   <ItemGroup>
     <Image Include="console_examples.png" />
     <Image Include="console_examples_min.png" />
+    <Image Include="console_examples_min2.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Colors.Dev.nuspec" />

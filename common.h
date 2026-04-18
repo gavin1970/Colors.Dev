@@ -31,6 +31,22 @@ static inline char* createBuffer(const char* str) {
 
 	return buffer;
 }
+static inline char* combineBuffers(const char* str1, const char* str2) {
+	if (!str1 || !str2) return NULL;
+
+	size_t len1 = strlen(str1);
+	size_t len2 = strlen(str2);
+	size_t totalLen = len1 + len2 + 1;
+	char* buffer = (char*)malloc(totalLen);
+
+	if (buffer) {
+		memcpy(buffer, str1, len1);
+		memcpy(buffer + len1, str2, len2);
+		buffer[totalLen - 1] = '\0';
+	}
+
+	return buffer;
+}
 static inline unsigned char clampUChr(unsigned char v, unsigned char min, unsigned char max) { return v < min ? min : (v > max ? max : v); }
 static inline int clampInt(int v, int min, int max) { return v < min ? min : (v > max ? max : v); }
 static inline double clampDbl(double v, double min, double max) { return v < min ? min : (v > max ? max : v); }

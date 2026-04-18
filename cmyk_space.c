@@ -73,29 +73,43 @@ COLORS_DEV_API char* GetCmykMod(CmykSpace cmyk)
     double y = cmyk.yellow;
     double k = cmyk.key;
 
+    char keyName[10] = { 0 };
+    char modifier[22] = { 0 };
+
     // 1. PAPER WHITE (Top priority)
     if (c < 5.0 && m < 5.0 && y < 5.0 && k < 5.0)
         return createBuffer("Paper White");
 
     // 2. High Black (K) values
     if (k > 95.0) return createBuffer("Deep Inky Black");
-    if (k > 85.0) return createBuffer("Rich Blackened");
-    if (k > 60.0) return createBuffer("Darkened");
+    if (k > 85.0) sprintf_s(keyName, sizeof(keyName), " Blackened");
+    else if (k > 60.0) sprintf_s(keyName, sizeof(keyName), " Darkened");
 
     // 3. Vivids 
-    if (c > 85.0 && m < 40.0 && y < 40.0) return createBuffer("Vivid Cyan");
-    if (m > 85.0 && c < 60.0 && y < 40.0) return createBuffer("Vivid Magenta");
-    if (y > 85.0 && c < 40.0 && m < 40.0) return createBuffer("Vivid Yellow");
+    if (c > 85.0 && m < 40.0 && y < 40.0) sprintf_s(modifier, sizeof(modifier), "Vivid Cyan");
+    else if (m > 85.0 && c < 60.0 && y < 40.0) sprintf_s(modifier, sizeof(modifier), "Vivid Magenta");
+    else if (c > 85.0 && m < 40.0 && y < 40.0) sprintf_s(modifier, sizeof(modifier), "Vivid Navy");
+    else if (y > 85.0 && c < 40.0 && m < 40.0) sprintf_s(modifier, sizeof(modifier), "Vivid Yellow");
 
     // 4. Strong single CMY
-    if (c > 70.0 && m < 30.0 && y < 30.0) return createBuffer("Strong Cyan");
-    if (m > 70.0 && c < 30.0 && y < 30.0) return createBuffer("Strong Magenta");
-    if (y > 70.0 && c < 30.0 && m < 30.0) return createBuffer("Strong Yellow");
+    else if (c > 70.0 && m < 30.0 && y < 30.0) sprintf_s(modifier, sizeof(modifier), "Strong Cyan");
+    else if (m > 70.0 && c < 30.0 && y < 30.0) sprintf_s(modifier, sizeof(modifier), "Strong Magenta");
+    else if (y > 70.0 && c < 30.0 && m < 30.0) sprintf_s(modifier, sizeof(modifier), "Strong Yellow");
 
     // 5. Dominant CMY combinations
-    if (c > 50.0 && m > 50.0 && y < 30.0) return createBuffer("Deep Blue Violet");
-    if (c > 50.0 && y > 50.0 && m < 30.0) return createBuffer("Rich Green");
-    if (m > 50.0 && y > 50.0 && c < 30.0) return createBuffer("Fiery Red Orange");
+    else if (c > 75.0 && m > 75.0 && y < 15.0) sprintf_s(modifier, sizeof(modifier), "Deep Blue");
+    else if (c > 50.0 && m > 50.0 && y < 30.0) sprintf_s(modifier, sizeof(modifier), "Deep Blue Violet");
+    else if (c > 50.0 && m > 25.0 && y == 0.0) sprintf_s(modifier, sizeof(modifier), "Deep Navy");
+    else if (c > 50.0 && y > 50.0 && m < 30.0) sprintf_s(modifier, sizeof(modifier), "Rich Green");
+    else if (m > 50.0 && y > 50.0 && c < 30.0) sprintf_s(modifier, sizeof(modifier), "Fiery Red Orange");
+
+    if (strlen(keyName) > 0 && strlen(modifier) > 0)
+        return combineBuffers(modifier, keyName);
+    // Fall back to generic rich blackened if no strong color dominance
+    else if (strlen(keyName) > 0)
+        return createBuffer(keyName);
+    else if (strlen(modifier) > 0)
+        return createBuffer(modifier);
 
     // 6. Deep Teal / Forest (High Cyan & Yellow, Low Magenta, Moderate Key)
     if (c > 60.0 && y > 40.0 && m < 30.0 && k > 20.0)
@@ -131,3 +145,4 @@ COLORS_DEV_API char* GetCmykMod(CmykSpace cmyk)
     // 12. Fallthrough
     return createBuffer("Multi-Ink Hue");
 }
+
