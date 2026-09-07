@@ -1,6 +1,6 @@
 # Colors.Dev
 
-[![Version](https://img.shields.io/badge/version-6.9.5.1408-blue.svg)](https://github.com/colors-dev/Colors.Dev)
+[![Version](https://img.shields.io/badge/version-6.9.7.1331-blue.svg)](https://github.com/colors-dev/Colors.Dev)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/colors-dev/Colors.Dev/blob/master/LICENSE.md)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20Linux-purple.svg)<br/>
 ![Dependencies](https://img.shields.io/badge/dependencies-none-purple)
@@ -561,7 +561,10 @@ This project is licensed under the MIT License - see the [LICENSE](https://githu
 
 ## Version History
 
-- **6.9.5.1408** - Current release
+- **6.9.7.1331** - Current release
+  - Tweaked CMYK Modifier a bit more to get color names in better alignment with HUE.
+
+- **6.9.5.1408**
   - Tweaked CMYK Modifier, merged and made naming more diverse on the color.
 
 - **6.8.29.0514**
